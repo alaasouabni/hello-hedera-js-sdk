@@ -1,0 +1,29 @@
+//...................Intro Commands....................
+
+
+
+
+mkdir hello-hedera-js-sdk && cd hello-hedera-js-sdk
+
+
+npm init -y
+
+
+
+// Install Hedera's JS SDK with NPM
+npm install --save @hashgraph/sdk
+
+// Install with Yarn
+yarn add @hashgraph/sdk
+
+
+
+// Install with NPM
+npm install dotenv
+
+// Install with Yarn
+yarn add dotenv
+
+
+
+node Intro.js
