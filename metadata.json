@@ -1,0 +1,17 @@
+{
+	"name": "Diploma",
+	"description": "Certificate of Graduation",
+    "creator": "ESPRIT",
+	"image": "https://bafybeig7uohokauzgbzr5ytmk2ahjjys23ryaa2yy5nylakaxeakek4wmm.ipfs.w3s.link/image_2024-11-06_134214297.png",
+	"properties": {
+		"university": "ESPRIT",
+		"college": "Engineering",
+		"level": "Masters",
+		"field": "IT Engineering",
+		"honors": "yes",
+		"honorsType": "Excellent",
+		"Score": "16.5",
+		"student": "Alice",
+		"date": "2025-07-18"
+	}
+}

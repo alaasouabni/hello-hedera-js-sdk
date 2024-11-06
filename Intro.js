@@ -35,33 +35,33 @@ const {
     //!.......................Create New Account........................!
 
     // Create new keys
-    // const newAccountPrivateKey = PrivateKey.generateED25519();
-    // const newAccountPublicKey = newAccountPrivateKey.publicKey;
+    const newAccountPrivateKey = PrivateKey.generateED25519();
+    const newAccountPublicKey = newAccountPrivateKey.publicKey;
   
-    // // Create a new account with 1,000 tinybar starting balance
-    // const newAccountTransactionResponse = await new AccountCreateTransaction()
-    //   .setKey(newAccountPublicKey)
-    //   .setInitialBalance(Hbar.fromTinybars(1000))
-    //   .execute(client);
+    // Create a new account with 1,000 tinybar starting balance
+    const newAccountTransactionResponse = await new AccountCreateTransaction()
+      .setKey(newAccountPublicKey)
+      .setInitialBalance(Hbar.fromTinybars(1000))
+      .execute(client);
   
-    // // Get the new account ID
-    // const getReceipt = await newAccountTransactionResponse.getReceipt(client);
-    // const newAccountId = getReceipt.accountId;
+    // Get the new account ID
+    const getReceipt = await newAccountTransactionResponse.getReceipt(client);
+    const newAccountId = getReceipt.accountId;
   
-    // console.log("\nNew account ID: " + newAccountId);
+    console.log("\nNew account ID: " + newAccountId);
   
   
-    // // Verify the account balance
-    // const accountBalance = await new AccountBalanceQuery()
-    //   .setAccountId(newAccountId)
-    //   .execute(client);
+    // Verify the account balance
+    const accountBalance = await new AccountBalanceQuery()
+      .setAccountId(newAccountId)
+      .execute(client);
   
-    // console.log(
-    //   "New account balance is: " +
-    //     accountBalance.hbars.toTinybars() +
-    //     " tinybars."
-    // );
-  
+    console.log(
+      "New account balance is: " +
+        accountBalance.hbars.toTinybars() +
+        " tinybars."
+    );
+
     
     //!........................Transfer Hbar............................!
     // Create the transfer transaction

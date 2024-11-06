@@ -13,7 +13,7 @@ const {
   } = require("@hashgraph/sdk");
   require("dotenv").config();
   
-  async function environmentSetup() {
+  async function createNFT() {
     // Grab your Hedera testnet account ID and private key from your .env file
     const myAccountId = process.env.MY_ACCOUNT_ID;
     const myPrivateKey = process.env.MY_PRIVATE_KEY;
@@ -98,7 +98,7 @@ const {
     const supplyKey = PrivateKey.generate();
 
 
-    //Create the NFT
+    //Create the NFT Collection
     const nftCreate = await new TokenCreateTransaction()
       .setTokenName("diploma")
       .setTokenSymbol("GRAD")
@@ -132,7 +132,7 @@ const {
     //IPFS content identifiers for which we will create a NFT
     const CID = [
       Buffer.from(
-        "ipfs://bafyreiao6ajgsfji6qsgbqwdtjdu5gmul7tv2v3pd6kjgcw5o65b2ogst4/metadata.json"
+        "https://bafybeid7nrq6juf6myg33zbdgmtnuxstnb4dgeqg2n7y7bxgtu7n7ligra.ipfs.w3s.link/metadata.json"
       ),
       Buffer.from(
         "ipfs://bafyreic463uarchq4mlufp7pvfkfut7zeqsqmn3b2x3jjxwcjqx6b5pk7q/metadata.json"
@@ -213,7 +213,7 @@ const {
     );
 
 	
-    //TRANSFER STABLECOIN FROM TREASURY TO ALICE
+    //TRANSFER NFT FROM TREASURY TO ALICE
     let tokenTransferTx = await new TransferTransaction()
       .addNftTransfer(tokenId, 1, treasuryId, aliceId)
       .freezeWith(client)
@@ -226,7 +226,7 @@ const {
 
 
 
-    // Check the balance before the transfer for the treasury account
+    // Check the balance after the transfer for the treasury account
     var balanceCheckTx = await new AccountBalanceQuery()
       .setAccountId(treasuryId)
       .execute(client);
@@ -236,7 +236,7 @@ const {
       )} NFTs of ID ${tokenId}`
     );
 
-    // Check the balance before the transfer for Alice's account
+    // Check the balance after the transfer for Alice's account
     var balanceCheckTx = await new AccountBalanceQuery()
       .setAccountId(aliceId)
       .execute(client);
@@ -249,4 +249,4 @@ const {
 
 
   }
-  environmentSetup();
+  createNFT();

@@ -12,7 +12,7 @@ const {
   } = require("@hashgraph/sdk");
   require("dotenv").config();
   
-  async function environmentSetup() {
+  async function createFT() {
     // Grab your Hedera testnet account ID and private key from your .env file
     const myAccountId = process.env.MY_ACCOUNT_ID;
     const myPrivateKey = process.env.MY_PRIVATE_KEY;
@@ -50,7 +50,7 @@ const {
     const getReceipt = await newAccountTransactionResponse.getReceipt(client);
     const treasuryId = getReceipt.accountId;
   
-    console.log("\nNew account ID: " + treasuryId);
+    console.log("\nNew Treasury account ID: " + treasuryId);
   
     // Verify the account balance
     const accountBalance = await new AccountBalanceQuery()
@@ -58,7 +58,7 @@ const {
       .execute(client);
   
     console.log(
-      "\nNew account balance is: " +
+      "\nNew Treasury account balance is: " +
         accountBalance.hbars.toTinybars() +
         " tinybars."
     );
@@ -79,7 +79,7 @@ const {
     const getReceiptalice = await alicePublicKeyTransactionResponse.getReceipt(client);
     const aliceId = getReceiptalice.accountId;
   
-    console.log("\nNew account ID: " + aliceId);
+    console.log("\nNew Alice account ID: " + aliceId);
   
     // Verify the account balance
     const accountBalancealice = await new AccountBalanceQuery()
@@ -87,27 +87,34 @@ const {
       .execute(client);
   
     console.log(
-      "\nNew account balance is: " +
+      "\nNew Alice account balance is: " +
         accountBalancealice.hbars.toTinybars() +
         " tinybars."
     );
 
 
-
+    //CREATE SUPPLY KEY
     const supplyKey = PrivateKey.generate();
 
 
     //CREATE FUNGIBLE TOKEN (STABLECOIN)
     let tokenCreateTx = await new TokenCreateTransaction()
-      .setTokenName("Alulu")
-      .setTokenSymbol("ALU")
+      .setTokenName("PEEPO")
+      .setTokenSymbol("PEP")
       .setTokenType(TokenType.FungibleCommon)
       .setDecimals(2)
-      .setInitialSupply(10000)
+      .setInitialSupply(10000) // in decimals
       .setTreasuryAccountId(treasuryId)
       .setSupplyType(TokenSupplyType.Infinite)
       .setSupplyKey(supplyKey)
       .freezeWith(client);
+
+
+
+      //not specifying an admin key, makes a token immutable (can’t change or add properties); 
+      //not specifying a supply key, makes a token supply fixed (can’t mint new or burn existing tokens); 
+      //not specifying a token type, makes a token fungible.
+
 
     let tokenCreateSign = await tokenCreateTx.sign(treasuryPrivateKey);
     let tokenCreateSubmit = await tokenCreateSign.execute(client);
@@ -130,7 +137,7 @@ const {
     console.log(`- Token association with Alice's account: ${associateAliceRx.status} \n`);
 	
   
-    //BALANCE CHECK
+    //BALANCE CHECK BEFORE TRANSFER
     var balanceCheckTx = await new AccountBalanceQuery().setAccountId(treasuryId).execute(client);
     console.log(`- Treasury balance: ${balanceCheckTx.tokens._map.get(tokenId.toString())} units of token ID ${tokenId}`);
     var balanceCheckTx = await new AccountBalanceQuery().setAccountId(aliceId).execute(client);
@@ -149,7 +156,7 @@ const {
 
 
 
-    //BALANCE CHECK
+    //BALANCE CHECK AFTER TRANSFER
     var balanceCheckTx = await new AccountBalanceQuery().setAccountId(treasuryId).execute(client);
     console.log(`- Treasury balance: ${balanceCheckTx.tokens._map.get(tokenId.toString())} units of token ID ${tokenId}`);
     var balanceCheckTx = await new AccountBalanceQuery().setAccountId(aliceId).execute(client);
@@ -158,4 +165,4 @@ const {
 
 
   }
-  environmentSetup();
+  createFT();
