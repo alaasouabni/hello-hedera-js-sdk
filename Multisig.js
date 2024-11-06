@@ -5,7 +5,8 @@ const {
     AccountCreateTransaction,
     AccountBalanceQuery,
     TransferTransaction,
-    AccountId
+    AccountId,
+    KeyList
   } = require("@hashgraph/sdk")
   require("dotenv").config();
   
@@ -50,18 +51,9 @@ const {
     const newAccountId = getReceipt.accountId;
   
     console.log("\nNew account ID: " + newAccountId);
+
+
   
-  
-    // Verify the account balance
-    const accountBalance = await new AccountBalanceQuery()
-      .setAccountId(newAccountId)
-      .execute(client);
-  
-    console.log(
-      "New account balance is: " +
-        accountBalance.hbars.toTinybars() +
-        " tinybars."
-    );
 
     const newAccountPrivateKey2 = PrivateKey.generateED25519();
     const newAccountPublicKey2 = newAccountPrivateKey2.publicKey;
@@ -78,18 +70,8 @@ const {
   
     console.log("\nNew account ID 2: " + newAccountId2);
   
-  
-    // Verify the account balance
-    const accountBalance2 = await new AccountBalanceQuery()
-      .setAccountId(newAccountId2)
-      .execute(client);
-  
-    console.log(
-      "New account 2 balance is: " +
-        accountBalance2.hbars.toTinybars() +
-        " tinybars."
-    );
-  
+
+    
 
     const newAccountPrivateKey3 = PrivateKey.generateED25519();
     const newAccountPublicKey3 = newAccountPrivateKey3.publicKey;
@@ -106,24 +88,44 @@ const {
   
     console.log("\nNew account ID 3: " + newAccountId3);
   
+
+
+
+
+  const keyList = new KeyList([newAccountPublicKey, newAccountPublicKey2, newAccountPublicKey3]);
+
+  // Create the account with the key list
+  const createSharedAccountTx = await new AccountCreateTransaction()
+      .setKey(keyList)
+      .setInitialBalance(Hbar.fromTinybars(1000))
+      .execute(client);
+
+    // Get the new account ID
+    const getSharedReceipt = await createSharedAccountTx.getReceipt(client);
+    const newSharedAccountId = getSharedReceipt.accountId;
   
-    // Verify the account balance
-    const accountBalance3 = await new AccountBalanceQuery()
-      .setAccountId(newAccountId3)
+    console.log("\nNew Shared Account ID: " + newSharedAccountId);
+
+
+
+        // Verify the account balance
+    const sharedAccountBalance = await new AccountBalanceQuery()
+      .setAccountId(newSharedAccountId)
       .execute(client);
   
     console.log(
-      "New account 3 balance is: " +
-        accountBalance3.hbars.toTinybars() +
+      "New Shared account balance is: " +
+        sharedAccountBalance.hbars.toTinybars() +
         " tinybars."
     );
+
   //The node account ID to submit the transaction to. You can add more than 1 node account ID to the list
   const nodeId = [];
   nodeId.push(new AccountId(3));
 
   //Create the transfer transaction
   const transferTransaction = new TransferTransaction()
-      .addHbarTransfer(newAccountId, Hbar.fromTinybars(-100))
+      .addHbarTransfer(newSharedAccountId, Hbar.fromTinybars(-100))
       .addHbarTransfer(myAccountId, Hbar.fromTinybars(100))
       .setNodeAccountIds(nodeId);
 
@@ -159,13 +161,24 @@ const {
   console.log("The transaction ID " +txId);
 
 
-      // Verify the account balance
+  //Delay for a few seconds to ensure the transaction is complete
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  console.log("Start");
+  await delay(2000); // 2-second delay
+  console.log("Delayed Message");
+  console.log("End");
+  
+  
+  
+  // Verify the account balance
   const accountBalanceAfter = await new AccountBalanceQuery()
-      .setAccountId(newAccountId)
+      .setAccountId(newSharedAccountId)
       .execute(client);
   
     console.log(
-      "New account balance is: " +
+      "New Shared account balance is: " +
         accountBalanceAfter.hbars.toTinybars() +
         " tinybars."
     );
