@@ -99,14 +99,15 @@ const {
 
     //CREATE FUNGIBLE TOKEN (STABLECOIN)
     let tokenCreateTx = await new TokenCreateTransaction()
-      .setTokenName("PEEPO")
-      .setTokenSymbol("PEP")
+      .setTokenName("Crypto Tunisian Dinar")
+      .setTokenSymbol("cTND")
       .setTokenType(TokenType.FungibleCommon)
-      .setDecimals(2)
-      .setInitialSupply(10000) // in decimals
+      .setDecimals(3)
+      .setInitialSupply(100000) // in decimals
       .setTreasuryAccountId(treasuryId)
       .setSupplyType(TokenSupplyType.Infinite)
       .setSupplyKey(supplyKey)
+      //.setMetadata(Buffer.from("ipfs://bafybeiahzxmdor72kblgu6vdt26lkknqrm6fnrkunsqzqbwku2xwzjmkhi"))
       .freezeWith(client);
 
 
@@ -116,11 +117,11 @@ const {
       //not specifying a token type, makes a token fungible.
 
 
-    let tokenCreateSign = await tokenCreateTx.sign(treasuryPrivateKey);
-    let tokenCreateSubmit = await tokenCreateSign.execute(client);
-    let tokenCreateRx = await tokenCreateSubmit.getReceipt(client);
-    let tokenId = tokenCreateRx.tokenId;
-    console.log(`- Created token with ID: ${tokenId} \n`);
+      let tokenCreateSign = await tokenCreateTx.sign(treasuryPrivateKey);
+      let tokenCreateSubmit = await tokenCreateSign.execute(client);
+      let tokenCreateRx = await tokenCreateSubmit.getReceipt(client);
+      let tokenId = tokenCreateRx.tokenId;
+      console.log(`- Created token with ID: ${tokenId} \n`);
 
 
 
@@ -144,7 +145,7 @@ const {
     console.log(`- Alice's balance: ${balanceCheckTx.tokens._map.get(tokenId.toString())} units of token ID ${tokenId}`);
 
 	
-    //TRANSFER STABLECOIN FROM TREASURY TO ALICE
+    //TRANSFER COIN FROM TREASURY TO ALICE
     let tokenTransferTx = await new TransferTransaction()
       .addTokenTransfer(tokenId, treasuryId, -5)
       .addTokenTransfer(tokenId, aliceId, 5)

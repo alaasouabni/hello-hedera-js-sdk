@@ -1,0 +1,11 @@
+{
+    "name": "Crypto Tunisian Dinar",
+    "symbol": "cTND",
+    "description": "Digital Version of Tunisian Dinar",
+    "icon": "ipfs://bafybeifasjpu7hy3rfb5o6tiuygqgfuazehcjqqomon7ykf7wfc5e4fsxq",
+    "decimals": 3,
+    "custom": {
+      "projectType": "DeFi",
+      "launchDate": "2024-11-07"
+    }
+  }

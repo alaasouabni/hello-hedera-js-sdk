@@ -2,7 +2,7 @@
 	"name": "Diploma",
 	"description": "Certificate of Graduation",
     "creator": "ESPRIT",
-	"image": "https://bafybeig7uohokauzgbzr5ytmk2ahjjys23ryaa2yy5nylakaxeakek4wmm.ipfs.w3s.link/image_2024-11-06_134214297.png",
+	"image": "ipfs://bafybeigfp2t7p3b3lo6ufp5bo62ane4jphagcq245fp56vwirtdv4uqbnm",
 	"properties": {
 		"university": "ESPRIT",
 		"college": "Engineering",

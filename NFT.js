@@ -132,7 +132,7 @@ const {
     //IPFS content identifiers for which we will create a NFT
     const CID = [
       Buffer.from(
-        "https://bafybeid7nrq6juf6myg33zbdgmtnuxstnb4dgeqg2n7y7bxgtu7n7ligra.ipfs.w3s.link/metadata.json"
+        "ipfs://bafybeihlsozaqhl7g3htrdyxp64ugf4uimhovxtfkwjblxko57stm5ixpy" //https://ipfs.io/ipfs/QmeCF98voAAMgVFLbfBi9vBh8vRmGHrSKuk9ZrSYu6xYoF
       ),
       Buffer.from(
         "ipfs://bafyreic463uarchq4mlufp7pvfkfut7zeqsqmn3b2x3jjxwcjqx6b5pk7q/metadata.json"
